@@ -48,23 +48,23 @@ func WithDeadline(parent Context, d time.Time) (Context, CancelFunc) {
 
 
 func doWork(ctx context.Context) {
-select {
-case <-time.After(5 * time.Second):
-fmt.Println("工作完成")
-case <-ctx.Done():
-fmt.Println("工作取消:", ctx.Err())
-}
+    select {
+        case <-time.After(5 * time.Second):
+        fmt.Println("工作完成")
+        case <-ctx.Done():
+        fmt.Println("工作取消:", ctx.Err())
+    }
 }
 
 func main() {
-// 设置1秒超时
-ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
-defer cancel()
-
-go doWork(ctx)
-
-// 等待工作完成或取消
-time.Sleep(2 * time.Second)
+    // 设置1秒超时
+    ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+    defer cancel()
+    
+    go doWork(ctx)
+    
+    // 等待工作完成或取消
+    time.Sleep(2 * time.Second)
 }
 ```
 ## 实现特点
