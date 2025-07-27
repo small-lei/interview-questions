@@ -87,3 +87,30 @@ func main() {
 对长时间运行的操作检查 ctx.Done()
 这种设计使得 Go 程序的超时控制既高效又易于理解，成为并发编程的重要模式。
 ```
+
+# context上下文的几种类型？
+在 Go 语言中，context 包用于在不同的 Goroutine 之间传递请求范围的值、取消信号和截止时间。主要有以下几种类型：
+
+### context.Background():
+描述: 根上下文，是所有其他上下文的基础。
+用途: 通常用于程序的主入口点或作为 context 的起点。
+
+### context.TODO():
+描述: 暂时性的上下文，表示你还没决定具体使用什么上下文。
+用途: 用于尚未确定上下文类型的代码，应该尽快替换成合适的上下文。
+
+### context.WithCancel(parent Context):
+描述: 返回一个新的上下文和取消函数。
+用途: 用于取消某个操作或一组操作。通过调用返回的取消函数来取消上下文。
+
+### context.WithDeadline(parent Context, deadline time.Time):
+描述: 返回一个新的上下文，该上下文会在指定的截止时间自动取消。
+用途: 用于设置上下文的操作截止时间。
+
+### context.WithTimeout(parent Context, timeout time.Duration):
+描述: 返回一个新的上下文，该上下文会在指定的持续时间后自动取消。
+用途: 用于设置操作的超时时间，通常比 WithDeadline 更方便。
+
+### context.WithValue(parent Context, key, value interface{}):
+描述: 返回一个新的上下文，该上下文包含指定的键值对。
+用途: 用于在上下文中传递请求范围的值。注意，键值对应该是不可变的，通常用不容易冲突的类型作为键。
